@@ -1,0 +1,148 @@
+{# templates/product/back_office.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Back-Office{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: #f8d7da;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid black;
+        }
+        .product-container {
+            display: flex;
+            margin-bottom: 20px;
+            border: 1px solid black;
+            padding: 10px;
+            align-items: flex-start;
+        }
+        .product-container img {
+            width: 100px;
+            margin-right: 20px;
+        }
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .product-details-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .product-details-top div {
+            margin: 10px;
+            flex: 1;
+        }
+        .product-actions {
+            display: flex;
+            justify-content: flex-end;
+            width: 90%;
+            margin-top: 10px;
+        }
+        .product-actions a {
+            margin-left: 15px;
+            margin-right: 15px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        {{ form_start(form) }}
+        <div class="form-container">
+            <div class="product-details-top">
+                <div>
+                    <label>Image</label>
+                    {{ form_widget(form.image) }}
+                </div>
+                <div>
+                    <label>Nom</label>
+                    {{ form_widget(form.name) }}
+                </div>
+                <div>
+                    <label>Prix</label>
+                    {{ form_widget(form.price) }}
+                </div>
+                <div>
+                    <label>Stock XS</label>
+                    {{ form_widget(form.stockXS) }}
+                </div>
+                <div>
+                    <label>Stock S</label>
+                    {{ form_widget(form.stockS) }}
+                </div>
+                <div>
+                    <label>Stock M</label>
+                    {{ form_widget(form.stockM) }}
+                </div>
+                <div>
+                    <label>Stock L</label>
+                    {{ form_widget(form.stockL) }}
+                </div>
+                <div>
+                    <label>Stock XL</label>
+                    {{ form_widget(form.stockXL) }}
+                </div>
+            </div>
+            <div class="product-actions">
+                <button class="button">AJOUTER</button>
+            </div>
+        </div>
+        {{ form_end(form) }}
+
+        {% for product in products %}
+            <div class="product-container">
+                <div>
+                    <img src="{{ asset('pictures/' ~ product.image) }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-details">
+                    <div class="product-details-top">
+                        <div>
+                            <label>Nom</label>
+                            <div>{{ product.name }}</div>
+                        </div>
+                        <div>
+                            <label>Prix</label>
+                            <div>{{ product.price }}</div>
+                        </div>
+                        <div>
+                            <label>Stock XS</label>
+                            <div>{{ product.stockXS }}</div>
+                        </div>
+                        <div>
+                            <label>Stock S</label>
+                            <div>{{ product.stockS }}</div>
+                        </div>
+                        <div>
+                            <label>Stock M</label>
+                            <div>{{ product.stockM }}</div>
+                        </div>
+                        <div>
+                            <label>Stock L</label>
+                            <div>{{ product.stockL }}</div>
+                        </div>
+                        <div>
+                            <label>Stock XL</label>
+                            <div>{{ product.stockXL }}</div>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <a href="{{ path('product_edit', {id: product.id}) }}" class="button">MODIFIER</a>
+                        <a href="{{ path('product_delete', {id: product.id}) }}" class="button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">SUPPRIMER</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
