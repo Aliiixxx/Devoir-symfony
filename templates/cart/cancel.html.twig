@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement annulé{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Paiement annulé</h1>
+        <p>Votre paiement a été annulé. Vous pouvez réessayer ou retourner à la boutique.</p>
+        <a href="{{ path('cart_index') }}" class="button ">Retourner au panier</a>
+        <a href="{{ path('product_list') }}" class="button ">Retourner à la boutique</a>
+    </div>
+{% endblock %}

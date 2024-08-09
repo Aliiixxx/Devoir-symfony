@@ -4,6 +4,7 @@
 
 {% block body %}
 <div class="container">
+<div class="register-box">
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -15,22 +16,48 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputUserName">Username</label>
+        <h1>Se connecter</h1>
+        <label for="inputUserName">Nom utilisateur :</label>
         <input type="text" value="{{ last_username }}" name="userName" id="inputUserName" class="form-control" autocomplete="username" required autofocus>
-        <label for="inputPassword">Password</label>
+        <label for="inputPassword">Mot de passe :</label>
         <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
         <input type="hidden" name="_csrf_token"
             value="{{ csrf_token('authenticate') }}"
         >
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
+        <button  type="submit">
+            Se Connecter
         </button>
+        
     </form>
+    <a href="" ">Mot de passe oublié</a>
     <p>Pas encore inscrit ?</p>
-<a href="{{ path('app_register') }}" class="btn btn-primary">Crée un compte</a>
+<a href="{{ path('app_register') }}" class="button">Crée un compte</a>
 </div>
+</div>
+<style>
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
+
+.register-box {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin: 50px auto;
+}
+
+.register-box h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+</style>
 {% endblock %}

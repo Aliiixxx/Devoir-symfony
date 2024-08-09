@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Mon Panier</h1>
+
+        {% if cartItems is empty %}
+            <p>Votre panier est vide.</p>
+        {% else %}
+            {% for productId, sizes in cartItems %}
+                {% for size, item in sizes %}
+                    <div class="cart-item">
+                        <img src="{{ asset('pictures/' ~ item.product.image) }}" alt="{{ item.product.name }}">
+                        <div class="cart-item-info">
+                            <h3>{{ item.product.name }}</h3>
+                            <p>Prix : {{ item.product.price }} €</p>
+                            <p>Taille : {{ size }}</p>
+                            <p>Quantité : {{ item.quantity }}</p>
+                        </div>
+                        <div class="cart-item-actions">
+                            <a href="{{ path('cart_remove', {id: productId, size: size}) }}" class="button">Supprimer</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <div class="total">
+                Total : {{ cartItems|reduce((carry, sizes) => carry + sizes|reduce((sCarry, item) => sCarry + item.product.price * item.quantity, 0), 0) }} €
+            </div>
+            <div class="cart-actions">
+                <a href="{{ path('product_list') }}" class="button">Continuer mes achats</a>
+                <a href="{{ path('cart_checkout') }}" class="button" target="_blank">Régler avec Stripe</a>
+
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

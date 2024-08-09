@@ -1,18 +1,84 @@
-{# templates/product/show.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>{{ product.name }}</h1>
-        <img src="{{ asset('pictures/' ~ product.image) }}" alt="{{ product.name }}">
-        <p>Prix: {{ product.price }} €</p>
-        <p>Stock XS: {{ product.stockXS }}</p>
-        <p>Stock S: {{ product.stockS }}</p>
-        <p>Stock M: {{ product.stockM }}</p>
-        <p>Stock L: {{ product.stockL }}</p>
-        <p>Stock XL: {{ product.stockXL }}</p>
+        <div class="product-details">
+            <div class="product-image-container">
+                <img src="{{ asset('pictures/' ~ product.image) }}" alt="{{ product.name }}" class="product-image">
+            </div>
+            <div class="product-info">
+                <h1>{{ product.name }}</h1>
+                <p>Prix: {{ product.price }} €</p>
+
+                <form method="post" action="{{ path('cart_add', {id: product.id}) }}">
+                    <label for="size">Taille</label>
+                    <select name="size" id="size" required>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                    </select>
+                    <br><br>
+                    <button type="submit" class="button">AJOUTER AU PANIER</button>
+                </form>
+            </div>
+        </div>
     </div>
+
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .product-image-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            flex: 1;
+            text-align: center;
+        }
+
+        .product-info h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .product-info p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .product-info select {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+
+    </style>
 {% endblock %}

@@ -4,26 +4,50 @@
 
 {% block body %}
 <div class="container">
-    <h1>S'inscrire</h1>
+    <div class="register-box">
+        <h1>S'inscrire</h1>
 
-    {{ form_errors(registrationForm) }}
+        {{ form_start(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.userName, {'label': 'Nom utilisateur :'}) }}
+        {{ form_row(registrationForm.email, {'label': 'Adresse mail :'}) }}
+        {{ form_row(registrationForm.address, {'label': 'Adresse de livraison :'}) }}
+
+        {{ form_row(registrationForm.plainPassword, {'label': 'Mot de passe'}) }}
        
-        {{ form_row(registrationForm.userName) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.address) }}
 
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <button type="submit" class="button ">Créer un compte</button>
+        
+        {{ form_end(registrationForm) }}
 
-        <button type="submit" class="btn btn-primary">Crée un compte</button>
-    {{ form_end(registrationForm) }}
-
-    
-    <p>Déjà inscrit ?</p>
-<a href="{{ path('app_home') }}" class="btn btn-primary">Se Connecter</a>
+        <p>Déjà inscrit ?</p>
+        <a href="{{ path('app_login') }}" class="button ">Se Connecter</a>
+    </div>
 </div>
+
+<style>
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+.register-box {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin: 50px auto;
+}
+
+.register-box h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+</style>
+
 {% endblock %}

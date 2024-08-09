@@ -9,10 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ProductController extends AbstractController
 {
-    #[Route('/back-office', name: 'product_new')]
+    #[Route('/admin/back-office', name: 'product_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $product = new Product();
@@ -20,7 +21,6 @@ class ProductController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Gestion de l'upload de l'image
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
@@ -75,7 +75,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/{id}/delete', name: 'product_delete')]
+    #[Route('/admin/product/{id}/delete', name: 'product_delete')]
     public function delete(Product $product, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($product);
@@ -109,5 +109,33 @@ class ProductController extends AbstractController
         return $this->render('product/show.html.twig', [
             'product' => $product,
         ]);
+    }
+
+    #[Route('/cart/add/{id}', name: 'cart_add')]
+    public function addToCart($id, Request $request, SessionInterface $session, EntityManagerInterface $entityManager): Response
+    {
+        $product = $entityManager->getRepository(Product::class)->find($id);
+        $size = $request->request->get('size');
+
+        if (!$product || !$size) {
+            return $this->redirectToRoute('product_show', ['id' => $id]);
+        }
+
+        $cart = $session->get('cart', []);
+        $cartItem = [
+            'product' => $product,
+            'size' => $size,
+            'quantity' => 1
+        ];
+
+        if (isset($cart[$id][$size])) {
+            $cart[$id][$size]['quantity']++;
+        } else {
+            $cart[$id][$size] = $cartItem;
+        }
+
+        $session->set('cart', $cart);
+
+        return $this->redirectToRoute('cart_index');
     }
 }

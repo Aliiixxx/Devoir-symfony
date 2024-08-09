@@ -1,62 +1,23 @@
-{# templates/product/index.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des produits{% endblock %}
-
-{% block stylesheets %}
-    <style>
-        .container {
-            max-width: 70%;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 20px;
-        }
-        .filter-item, .product-item {
-            width: calc(33.333% - 20px);
-            border: 1px solid #ccc;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .filter-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .filter-container select,
-        .filter-container button {
-            margin-bottom: 10px;
-            width: 100%;
-        }
-        .product-item img {
-            width: 100%;
-            height: auto;
-        }
-        .product-item .info {
-            text-align: center;
-        }
-    </style>
-{% endblock %}
-
 {% block body %}
-    <div class="container">
-        <div class="filter-item">
-            <div class="filter-container">
-                <form method="get" action="{{ path('product_list') }}">
-                    <select name="price_range" id="price_range">
-                        <option value="all" {% if selectedPriceRange == 'all' %}selected{% endif %}>Fourchette de prix</option>
-                        <option value="0-10" {% if selectedPriceRange == '0-10' %}selected{% endif %}>0 à 10 €</option>
-                        <option value="10-20" {% if selectedPriceRange == '10-20' %}selected{% endif %}>10 à 20 €</option>
-                        <option value="20-50" {% if selectedPriceRange == '20-50' %}selected{% endif %}>20 à 50 €</option>
-                        <option value="50-100" {% if selectedPriceRange == '50-100' %}selected{% endif %}>50 à 100 €</option>
-                    </select>
-                    <button type="submit">Filtrer</button>
-                </form>
-            </div>
+<div class="container">
+    <div class="filter-item">
+        <div class="filter-container">
+            <form method="get" action="{{ path('product_list') }}">
+                <select name="price_range" id="price_range">
+                    <option value="all" {% if selectedPriceRange == 'all' %}selected{% endif %}>Fourchette de prix</option>
+                    <option value="0-10" {% if selectedPriceRange == '0-10' %}selected{% endif %}>0 à 10 €</option>
+                    <option value="10-20" {% if selectedPriceRange == '10-20' %}selected{% endif %}>10 à 20 €</option>
+                    <option value="20-50" {% if selectedPriceRange == '20-50' %}selected{% endif %}>20 à 50 €</option>
+                    <option value="50-100" {% if selectedPriceRange == '50-100' %}selected{% endif %}>50 à 100 €</option>
+                </select>
+                <button type="submit">Filtrer</button>
+            </form>
         </div>
+    </div>
 
+    <div class="products">
         {% for product in products %}
             <div class="product-item">
                 <img src="{{ asset('pictures/' ~ product.image) }}" alt="{{ product.name }}">
@@ -68,4 +29,81 @@
             </div>
         {% endfor %}
     </div>
+</div>
+
+<style>
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.filter-item {
+    margin-bottom: 20px;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+}
+
+.filter-container select {
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.filter-container button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filter-container button:hover {
+    background-color: #0056b3;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.product-item {
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+
+.product-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.info {
+    margin-top: 10px;
+}
+
+.info h3 {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+
+</style>
+
 {% endblock %}
