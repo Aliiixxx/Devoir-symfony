@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page d'inscription{% endblock %}
-
 {% block body %}
+
+<title>{% block title %}S'inscrire{% endblock %}</title>
+
 <div class="container">
     <div class="register-box">
         <h1>S'inscrire</h1>
@@ -32,7 +33,6 @@
     padding: 20px;
 }
 
-
 .register-box {
     width: 300px;
     padding: 20px;
@@ -46,7 +46,6 @@
     font-size: 24px;
     margin-bottom: 20px;
 }
-
 
 </style>
 

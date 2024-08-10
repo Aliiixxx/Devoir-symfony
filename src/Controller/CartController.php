@@ -37,7 +37,7 @@ public function checkout(SessionInterface $session): Response
                         'name' => $item['product']->getName(),
                         'images' => [$this->generateUrl('product_show', ['id' => $item['product']->getId()], UrlGeneratorInterface::ABSOLUTE_URL)],
                         ],
-                    'unit_amount' => $item['product']->getPrice() * 100, // Le prix en centimes
+                    'unit_amount' => $item['product']->getPrice() * 100, 
                     ],
                 'quantity' => $item['quantity'],
             ];

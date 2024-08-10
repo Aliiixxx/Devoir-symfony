@@ -1,9 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ product.name }}{% endblock %}
-
 {% block body %}
+
+<title>{% block title %}{{ product.name }}{% endblock %}</title>
+
     <div class="container">
+    {% if app.session.flashBag.has('error') %}
+    <div class="alert alert-danger">
+        {% for message in app.session.flashBag.get('error') %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
         <div class="product-details">
             <div class="product-image-container">
                 <img src="{{ asset('pictures/' ~ product.image) }}" alt="{{ product.name }}" class="product-image">
@@ -27,6 +35,8 @@
             </div>
         </div>
     </div>
+    
+
 
     <style>
         .container {

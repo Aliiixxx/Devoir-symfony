@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Bienvenue chez Stubborn</h1>
+
+<title>{% block title %}Acceuil{% endblock %}</title>
+
 <div class="container">
     <div class="products">
         {% for product in products %}
@@ -10,7 +12,9 @@
                 <div class="product-info">
                     <h3>{{ product.name }}</h3>
                     <p>{{ product.price }} €</p>
-                    <a href="{{ path('product_show', {id: product.id}) }}" class="button">Voir</a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="{{ path('product_show', {id: product.id}) }}" class="button">Voir</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

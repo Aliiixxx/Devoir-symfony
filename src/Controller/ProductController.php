@@ -112,30 +112,45 @@ class ProductController extends AbstractController
     }
 
     #[Route('/cart/add/{id}', name: 'cart_add')]
-    public function addToCart($id, Request $request, SessionInterface $session, EntityManagerInterface $entityManager): Response
-    {
-        $product = $entityManager->getRepository(Product::class)->find($id);
-        $size = $request->request->get('size');
+public function addToCart($id, Request $request, SessionInterface $session, EntityManagerInterface $entityManager): Response
+{
+    $product = $entityManager->getRepository(Product::class)->find($id);
+    $size = $request->request->get('size');
 
-        if (!$product || !$size) {
+    if (!$product || !$size) {
+        return $this->redirectToRoute('product_show', ['id' => $id]);
+    }
+
+
+    $stockField = 'stock' . strtoupper($size);
+    $availableStock = $product->{'get' . ucfirst($stockField)}();
+
+    if ($availableStock <= 0) {
+        $this->addFlash('error', 'Désolé, cette taille n\'est plus disponible.');
+        return $this->redirectToRoute('product_show', ['id' => $id]);
+    }
+    
+
+    $cart = $session->get('cart', []);
+    $cartItem = [
+        'product' => $product,
+        'size' => $size,
+        'quantity' => 1
+    ];
+
+    if (isset($cart[$id][$size])) {
+        if ($cart[$id][$size]['quantity'] + 1 > $availableStock) {
+            $this->addFlash('error', 'Désolé, vous ne pouvez pas ajouter plus de cette taille au panier.');
             return $this->redirectToRoute('product_show', ['id' => $id]);
         }
-
-        $cart = $session->get('cart', []);
-        $cartItem = [
-            'product' => $product,
-            'size' => $size,
-            'quantity' => 1
-        ];
-
-        if (isset($cart[$id][$size])) {
-            $cart[$id][$size]['quantity']++;
-        } else {
-            $cart[$id][$size] = $cartItem;
-        }
-
-        $session->set('cart', $cart);
-
-        return $this->redirectToRoute('cart_index');
+        $cart[$id][$size]['quantity']++;
+    } else {
+        $cart[$id][$size] = $cartItem;
     }
+
+    $session->set('cart', $cart);
+
+    return $this->redirectToRoute('cart_index');
+}
+
 }

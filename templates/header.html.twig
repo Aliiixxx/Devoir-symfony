@@ -3,8 +3,9 @@
         <div class="header-content">
             <div class="logo">
                 <img src="{{ asset('pictures/logo.png') }}" alt="Logo" height="50">
-                <p>Slogan</p>
+                <p><strong>Don't compromise on your look</strong></p>
             </div>
+
             <nav>
                 <ul>
                     <li><a href="{{ path('app_home') }}">Accueil</a></li>
@@ -26,6 +27,7 @@
 .container {
     max-width: 1200px;
     padding: 0 15px;
+    
 }
 
 .header-content {
@@ -37,7 +39,8 @@
 
 .logo {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .logo img {

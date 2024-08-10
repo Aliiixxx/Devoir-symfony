@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Panier{% endblock %}
-
 {% block body %}
+<title>{% block title %}Panier{% endblock %}</title>
     <div class="container">
         <h1>Mon Panier</h1>
 
@@ -20,19 +19,117 @@
                             <p>Quantité : {{ item.quantity }}</p>
                         </div>
                         <div class="cart-item-actions">
-                            <a href="{{ path('cart_remove', {id: productId, size: size}) }}" class="button">Supprimer</a>
+                            <a href="{{ path('cart_remove', {id: productId, size: size}) }}" class="button">Retirer du Panier</a>
                         </div>
                     </div>
                 {% endfor %}
             {% endfor %}
-            <div class="total">
-                Total : {{ cartItems|reduce((carry, sizes) => carry + sizes|reduce((sCarry, item) => sCarry + item.product.price * item.quantity, 0), 0) }} €
-            </div>
-            <div class="cart-actions">
-                <a href="{{ path('product_list') }}" class="button">Continuer mes achats</a>
-                <a href="{{ path('cart_checkout') }}" class="button" target="_blank">Régler avec Stripe</a>
+            <div class="cart-summary">
+                <div class="cart-summary-top">
+                    <a href="{{ path('cart_checkout') }}" class="button button-red">Finaliser ma commande</a>
+                     Total : {{ cartItems|reduce((carry, sizes) => carry + sizes|reduce((sCarry, item) => sCarry + item.product.price * item.quantity, 0), 0) }} €
+                </div>
+                <div class="cart-summary-bot">
+                 <a href="{{ path('product_list') }}" class="button button-green">Continuer mes achats</a>
 
+                </div>
             </div>
         {% endif %}
     </div>
+
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .cart-item img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .cart-item-info h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .cart-item-info p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-summary {
+                display: flex;
+                margin-top: 30px;
+                border-top: 1px solid #ddd;
+                padding-top: 15px;
+                flex-direction: column;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+            color: white;
+        }
+
+        .button-red {
+            background-color: #ff4d4d;
+        }
+
+        .button-red:hover {
+            background-color: #e60000;
+        }
+
+        .button-green {
+            background-color: #4CAF50;
+        }
+
+        .button-green:hover {
+            background-color: #45a049;
+        }
+        .cart-summary-top {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 10px;
+        }
+
+        .cart-summary-bot {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+    </style>
 {% endblock %}

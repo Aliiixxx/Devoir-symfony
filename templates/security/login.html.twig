@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
-
 {% block body %}
+
+<title>{% block title %}Se connecter{% endblock %}</title>
+
 <div class="container">
 <div class="register-box">
     <form method="post">
@@ -42,7 +43,6 @@
     margin: 0 auto;
     padding: 20px;
 }
-
 
 .register-box {
     width: 300px;
